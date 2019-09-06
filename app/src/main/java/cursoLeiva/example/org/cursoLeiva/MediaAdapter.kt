@@ -3,10 +3,11 @@ package cursoLeiva.example.org.cursoLeiva
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 
-class MediaAdapter(items: List<MediaItem>, val listener: (MediaItem) -> Unit) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+class MediaAdapter(items: List<MediaItem> = emptyList(), val listener: (MediaItem) -> Unit) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->
         notifyDataSetChanged()
@@ -28,7 +29,8 @@ class MediaAdapter(items: List<MediaItem>, val listener: (MediaItem) -> Unit) : 
 
         fun bind(item: MediaItem) = with(itemView) {
                 media_title.text = item.title
-                media_thumb.loadUrl(item.thumbUrl)
+                //media_thumb.loadUrl(item.thumbUrl)
+                Picasso.with(media_thumb.context).load(item.thumbUrl).into(media_thumb)
                 media_video_indicator.visibility = when (item.type) {
                     MediaItem.Type.PHOTO -> View.GONE
                     MediaItem.Type.VIDEO -> View.VISIBLE
